@@ -49,6 +49,7 @@ public class JournalService {
     }
 
 
+
     public Optional<MyJournal> getEntryBYid(ObjectId id) {
         return repo.findById(id);
     }
