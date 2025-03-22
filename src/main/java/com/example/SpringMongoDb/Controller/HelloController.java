@@ -20,7 +20,7 @@ public class HelloController {
 
     @PostMapping
     public void createUser(@RequestBody User user){
-        userService.createNewUser(user);
+        userService.SaveUser(user);
     }
 
 }

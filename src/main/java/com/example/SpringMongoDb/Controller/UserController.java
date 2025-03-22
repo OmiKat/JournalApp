@@ -10,8 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -22,7 +20,7 @@ public class UserController {
 
     @PostMapping
     public void createUser(@RequestBody User user){
-        userService.createNewUser(user);
+        userService.SaveUser(user);
     }
 
 
@@ -36,11 +34,16 @@ public class UserController {
         User userinDB = userService.findByUserName(userName);
         userinDB.setUserName(user.getUserName());
         userinDB.setPassword(user.getPassword());
-        userService.updateUser(userinDB);
+        userService.SaveUser(userinDB);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
 
-
+    @DeleteMapping
+    public ResponseEntity<?> deleteUser(@RequestBody User user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        userService.deleteUser(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -55,10 +55,17 @@ public class JournalService {
     }
 
     public void deletebyId(ObjectId id, String username) {
-        User user = userService.findByUserName(username);
-        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-        userService.updateUser(user);
-        repo.deleteById(id);
+        try {
+            User user = userService.findByUserName(username);
+            boolean removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            if (removed) {
+                userService.updateUser(user);
+                repo.deleteById(id);
+            }
+        }
+        catch (Exception e){
+            throw new RuntimeException("the item did not removed " , e);
+        }
     }
 
     public MyJournal updateEntryById(ObjectId id,MyJournal entry) {
