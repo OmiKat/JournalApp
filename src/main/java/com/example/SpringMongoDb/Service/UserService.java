@@ -39,6 +39,11 @@ public class UserService {
         user.setRoles(List.of("USER"));
         repo.save(user);
     }
+    public void SaveNewUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(List.of("USER" , "ADMIN"));
+        repo.save(user);
+    }
 
 
     public Optional<User> getEntryBYid(ObjectId id) {
